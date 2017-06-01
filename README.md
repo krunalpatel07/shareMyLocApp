@@ -24,3 +24,9 @@ $ ionic cordova run ios
 
 Substitute ios for android if not on a Mac.
 
+Prepare build for android and test app in android sdk
+
+```bash
+$ cordova prepare android
+```
+and then open '{projectpath}/plateforms/android'
