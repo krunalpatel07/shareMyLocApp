@@ -10,7 +10,13 @@
   <agm-map [latitude]="userInfo.latitude" [longitude]="userInfo.longitude" [zoom]=15>
     <agm-marker [latitude]="userInfo.latitude" [longitude]="userInfo.longitude"></agm-marker>
   </agm-map>
-  <ion-item>Latitude : {{userInfo.latitude}}</ion-item>
-  <ion-item>Longitude : {{userInfo.longitude}}</ion-item>
+  <ion-list>
+    <ion-list-header>
+      My Location
+    </ion-list-header>
+    <ion-item>{{userInfo.houseNumber}} {{userInfo.street}}<br/><span style="line-height: 30px">{{userInfo.city}}</span></ion-item>
+    <ion-item>Latitude : {{userInfo.latitude}}</ion-item>
+    <ion-item>Longitude : {{userInfo.longitude}}</ion-item>
+  </ion-list>
   <button block ion-button>Share My Location</button>
 </ion-content>
