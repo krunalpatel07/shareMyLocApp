@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult} from '@ionic-native/native-geocoder';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { NativeGeocoder, NativeGeocoderReverseResult} from '@ionic-native/native
 export class HomePage implements OnInit{
   userInfo: any = {};
 
-  constructor(public navCtrl: NavController, private geolocation: Geolocation, private nativeGeoCoder: NativeGeocoder) {
+  constructor(public navCtrl: NavController, private geolocation: Geolocation, private nativeGeoCoder: NativeGeocoder,private socialSharing: SocialSharing) {
 
   }
 
@@ -28,11 +29,7 @@ export class HomePage implements OnInit{
         this.userInfo.city = result.city;
         console.log("result" + JSON.stringify(result));
       }) */
-    })/*.then(() => {
-      this.nativeGeoCoder.reverseGeocode(this.userInfo.latitude,this.userInfo.longitude).then((result:NativeGeocoderReverseResult) => {
-        console.log(result);
-      })
-    })*/.catch((error) => {
+    }).catch((error) => {
       console.log("error" + error.code);
       console.log("error" + error.message);
       this.nativeGeoCoder.reverseGeocode(33.635962899999996,-112.1170974).then((result:NativeGeocoderReverseResult) => {
@@ -42,5 +39,10 @@ export class HomePage implements OnInit{
         this.userInfo.city = result.city;
       })
     });
+  }
+
+  handleShareMyLocBtnClick(){
+    console.log('inside click');
+    this.socialSharing.share('testing',null,null,null);
   }
 }
