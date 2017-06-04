@@ -7,10 +7,16 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { AgmCoreModule } from '@agm/core';
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': '5bb37fb4'
+  }
+};
 
 @NgModule({
   declarations: [
@@ -22,7 +28,8 @@ import { HomePage } from '../pages/home/home';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBpZGFqnLcpDLyr0XNOUniCom0iap9cHZA'
     }),
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
