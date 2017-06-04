@@ -19,5 +19,12 @@
     <ion-item>Latitude : {{userInfo.latitude}}</ion-item>
     <ion-item>Longitude : {{userInfo.longitude}}</ion-item>
   </ion-list>
-  <button block ion-button (click)="handleShareMyLocBtnClick()">Share My Location</button>
+  <ion-row>
+    <ion-col align-self-start>
+      <button block ion-button (click)="handleRelocateBtnClick()">Relocate</button>
+    </ion-col>
+    <ion-col align-self-end>
+      <button block ion-button (click)="handleShareMyLocBtnClick()">Share My Location</button>
+    </ion-col>
+  </ion-row>
 </ion-content>

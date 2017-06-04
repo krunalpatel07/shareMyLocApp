@@ -1,10 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult} from '@ionic-native/native-geocoder';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { ToastController } from 'ionic-angular';
 import { GeoCodeService } from "./geocode.service";
-
 
 @Component({
   selector: 'page-home',
@@ -13,7 +12,7 @@ import { GeoCodeService } from "./geocode.service";
 export class HomePage implements OnInit{
   userInfo: any = {};
   errToastOptions = {
-    message : 'Location Service Denied. Please Allow Location Service.',
+    message : 'Location Service Denied. Please Allow Location Service From Settings.',
     duration : 5000,
     position : 'top'
   };
@@ -26,24 +25,24 @@ export class HomePage implements OnInit{
   }
 
   ngOnInit(){
+    this.getUserInfo();
+  }
+
+  getUserInfo(){
     this.geolocation.getCurrentPosition({ enableHighAccuracy : true }).then((resp) => {
       this.userInfo.latitude = resp.coords.latitude;
       this.userInfo.longitude = resp.coords.longitude;
-      console.log(resp.coords.latitude);
-      console.log(resp.coords.longitude);
-      console.log(resp.coords);
-     /* this.geocode.getAddress(resp.coords.latitude,resp.coords.longitude).subscribe((data)=>{
-        if(data.results[0].formatted_address !== undefined){
-          this.userInfo.address = data.results[0].formatted_address;
-        }
-        console.log(data);
-      }); */
+      /* this.geocode.getAddress(resp.coords.latitude,resp.coords.longitude).subscribe((data)=>{
+       if(data.results[0].formatted_address !== undefined){
+       this.userInfo.address = data.results[0].formatted_address;
+       }
+       console.log(data);
+       }); */
       this.nativeGeoCoder.reverseGeocode(this.userInfo.latitude,this.userInfo.longitude).then((result:NativeGeocoderReverseResult) => {
         this.userInfo.houseNumber = result.houseNumber;
         this.userInfo.street = result.street;
         this.userInfo.city = result.city;
         this.userInfo.postalCode = result.postalCode;
-        console.log("result" + JSON.stringify(result));
       })
     }).catch((error) => {
       if(error.code == '1' || error.code == '2'){
@@ -51,6 +50,10 @@ export class HomePage implements OnInit{
         errorToast.present();
       }
     });
+  }
+
+  handleRelocateBtnClick(){
+    this.getUserInfo();
   }
 
   handleShareMyLocBtnClick(){
