@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult} from '@ionic-native/native-geocoder';
 import { SocialSharing } from '@ionic-native/social-sharing';
@@ -9,7 +9,7 @@ import { GeoCodeService } from "./geocode.service";
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage implements OnInit{
+export class HomePage {
   userInfo: any = {};
   errToastOptions = {
     message : 'Location Service Denied. Please Allow Location Service From Settings.',
@@ -24,7 +24,7 @@ export class HomePage implements OnInit{
               private geocode: GeoCodeService) {
   }
 
-  ngOnInit(){
+  ionViewDidEnter(){
     this.getUserInfo();
   }
 
