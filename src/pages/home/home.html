@@ -14,7 +14,8 @@
     <ion-list-header>
       My Location
     </ion-list-header>
-    <ion-item>{{userInfo.houseNumber}} {{userInfo.street}}<br/><span style="line-height: 30px">{{userInfo.city}}</span></ion-item>
+    <ion-item text-wrap>{{userInfo.houseNumber}} {{userInfo.street}} {{userInfo.city}} {{userInfo.postalCode}}</ion-item>
+    <!--<ion-item text-wrap>{{userInfo.address}}</ion-item> -->
     <ion-item>Latitude : {{userInfo.latitude}}</ion-item>
     <ion-item>Longitude : {{userInfo.longitude}}</ion-item>
   </ion-list>

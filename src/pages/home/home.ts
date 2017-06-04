@@ -3,6 +3,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult} from '@ionic-native/native-geocoder';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { ToastController } from 'ionic-angular';
+import { GeoCodeService } from "./geocode.service";
 
 
 @Component({
@@ -17,8 +18,11 @@ export class HomePage implements OnInit{
     position : 'top'
   };
 
-  constructor(public toastCtrl: ToastController, private geolocation: Geolocation, private nativeGeoCoder: NativeGeocoder,private socialSharing: SocialSharing) {
-
+  constructor(public toastCtrl: ToastController,
+              private geolocation: Geolocation,
+              private nativeGeoCoder: NativeGeocoder,
+              private socialSharing: SocialSharing,
+              private geocode: GeoCodeService) {
   }
 
   ngOnInit(){
@@ -28,10 +32,17 @@ export class HomePage implements OnInit{
       console.log(resp.coords.latitude);
       console.log(resp.coords.longitude);
       console.log(resp.coords);
+     /* this.geocode.getAddress(resp.coords.latitude,resp.coords.longitude).subscribe((data)=>{
+        if(data.results[0].formatted_address !== undefined){
+          this.userInfo.address = data.results[0].formatted_address;
+        }
+        console.log(data);
+      }); */
       this.nativeGeoCoder.reverseGeocode(this.userInfo.latitude,this.userInfo.longitude).then((result:NativeGeocoderReverseResult) => {
         this.userInfo.houseNumber = result.houseNumber;
         this.userInfo.street = result.street;
         this.userInfo.city = result.city;
+        this.userInfo.postalCode = result.postalCode;
         console.log("result" + JSON.stringify(result));
       })
     }).catch((error) => {
@@ -43,12 +54,21 @@ export class HomePage implements OnInit{
   }
 
   handleShareMyLocBtnClick(){
-    console.log('inside click');
-    let googleMapsLink = 'http://maps.google.com/?saddr=My+Location&daddr=43.12345,-76.12345';
- //   googleMapsLink = googleMapsLink.replace( /(http:\/\/[^\s]+)/gi , '<a href="$1">$1</a>' );
-    let locTemplate: string = `My Location is: ` + this.userInfo.houseNumber + ' ' + this.userInfo.street + ' ' + this.userInfo.city + ` 
+    let googleMapsLink = 'http://maps.google.com/?saddr=My+Location&daddr='+this.userInfo.latitude+','+this.userInfo.longitude;
+    let appleMapsLink = 'http://maps.apple.com/maps?saddr=Current%20Location&daddr='+this.userInfo.latitude+','+this.userInfo.longitude;
+    let houseNumber = typeof(this.userInfo.houseNumber) !== 'undefined' ? this.userInfo.houseNumber : '';
+    let street = typeof(this.userInfo.street) !== 'undefined' ? this.userInfo.street : '';
+    let city = typeof(this.userInfo.city) !== 'undefined' ? this.userInfo.city : '';
+    let postalCode = typeof(this.userInfo.postalCode) !== 'undefined' ? this.userInfo.postalCode : '';
+    let locTemplate: string = `My Location is: ` + houseNumber + ' ' + street + ' ' + city + ' ' + postalCode + ` 
 
-` + 'Google Maps Link :' + googleMapsLink ;
+` + 'Google Maps Link :' + googleMapsLink + `
+
+` + 'Apple Maps Link :' + appleMapsLink + `
+
+` + 'Other Information:' + `
+` + 'Latitude :' + this.userInfo.latitude + `
+` + 'Longitude :' + this.userInfo.longitude;
     this.socialSharing.share(locTemplate,null,null,null);
   }
 }

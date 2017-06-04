@@ -8,9 +8,12 @@ import { AgmCoreModule } from '@agm/core';
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+import { HttpModule } from "@angular/http";
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { GeoCodeService } from "../pages/home/geocode.service";
+
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -25,6 +28,7 @@ const cloudSettings: CloudSettings = {
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBpZGFqnLcpDLyr0XNOUniCom0iap9cHZA'
     }),
@@ -42,6 +46,7 @@ const cloudSettings: CloudSettings = {
     Geolocation,
     NativeGeocoder,
     SocialSharing,
+    GeoCodeService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
