@@ -12,7 +12,7 @@ import { GeoCodeService } from "./geocode.service";
 export class HomePage {
   userInfo: any = {};
   errToastOptions = {
-    message : 'Location Service Denied. Please Allow Location Service From Settings.',
+    message : 'Location Service disabled. Please allow Location Service from Settings.',
     duration : 5000,
     position : 'top'
   };
@@ -24,9 +24,7 @@ export class HomePage {
               private geocode: GeoCodeService,
               private platform: Platform) {
     platform.ready().then(() => {
-      this.platform.pause.subscribe(() => {
-        console.log('[INFO] App paused');
-      });
+      this.getUserInfo();
 
       this.platform.resume.subscribe(() => {
         this.getUserInfo();
@@ -34,14 +32,15 @@ export class HomePage {
     })
   }
 
-  ionViewDidEnter(){
+/*  ionViewDidEnter(){
     this.getUserInfo();
-  }
+  } */
 
   getUserInfo(){
     this.geolocation.getCurrentPosition({ enableHighAccuracy : true }).then((resp) => {
       this.userInfo.latitude = resp.coords.latitude;
       this.userInfo.longitude = resp.coords.longitude;
+      this.userInfo.accuracy = resp.coords.accuracy;
       /* this.geocode.getAddress(resp.coords.latitude,resp.coords.longitude).subscribe((data)=>{
        if(data.results[0].formatted_address !== undefined){
        this.userInfo.address = data.results[0].formatted_address;
