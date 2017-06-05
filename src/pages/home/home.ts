@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult} from '@ionic-native/native-geocoder';
 import { SocialSharing } from '@ionic-native/social-sharing';
-import { ToastController } from 'ionic-angular';
+import {ToastController, Platform} from 'ionic-angular';
 import { GeoCodeService } from "./geocode.service";
 
 @Component({
@@ -21,7 +21,17 @@ export class HomePage {
               private geolocation: Geolocation,
               private nativeGeoCoder: NativeGeocoder,
               private socialSharing: SocialSharing,
-              private geocode: GeoCodeService) {
+              private geocode: GeoCodeService,
+              private platform: Platform) {
+    platform.ready().then(() => {
+      this.platform.pause.subscribe(() => {
+        console.log('[INFO] App paused');
+      });
+
+      this.platform.resume.subscribe(() => {
+        this.getUserInfo();
+      });
+    })
   }
 
   ionViewDidEnter(){
