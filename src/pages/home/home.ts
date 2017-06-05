@@ -40,7 +40,7 @@ export class HomePage {
     this.geolocation.getCurrentPosition({ enableHighAccuracy : true }).then((resp) => {
       this.userInfo.latitude = resp.coords.latitude;
       this.userInfo.longitude = resp.coords.longitude;
-      this.userInfo.accuracy = resp.coords.accuracy;
+      this.userInfo.accuracy = resp.coords.accuracy + ' Meters';
       /* this.geocode.getAddress(resp.coords.latitude,resp.coords.longitude).subscribe((data)=>{
        if(data.results[0].formatted_address !== undefined){
        this.userInfo.address = data.results[0].formatted_address;
